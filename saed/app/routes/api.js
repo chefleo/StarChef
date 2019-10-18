@@ -30,11 +30,17 @@ module.exports = function(router) {
            req.body.name == '' ||
            req.body.description == null ||
            req.body.description == ''||
-           typeof req.body.price != "Number"){
-            res.send('Ensure name, description and price were provided')
+           isNaN(req.body.price) ){
+            res.send('Ensure name, description and price were provided');
           } else {
-            product.save();
-            res.send('product save');
+            product.save(function(err){
+              if(err){
+                  res.send(err);
+              } else {
+                  res.send('product created');
+              }
+            });
+            //res.send('product save');
         }
       });
 

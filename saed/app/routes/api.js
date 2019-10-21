@@ -3,7 +3,7 @@ var Product    = require('../models/product');
 
 module.exports = function(router) {
     // http://localhost:8080/api/register
-        router.post('/register', function(req,res) {
+        router.post('/register', function(req, res) {
           var user = new User();
           user.username = req.body.username;
           user.password = req.body.password;
@@ -16,6 +16,7 @@ module.exports = function(router) {
                   res.send('User or Email already exists!');
               } else {
                   res.send('user created');
+                  res.status(200);
               }
             });
           }

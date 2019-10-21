@@ -53,9 +53,11 @@ export class RegisterComponent implements OnInit {
 
     this.registerService.createUser(this.userForm.value)
       .subscribe(
-        Response => console.log('Success', Response),
-        error => console.error('Error', error)
+        (data: IUser) => console.log(data),
+        (err: any) => console.log(err)
       );
+
+    this.onSaveComplete();
   }
 
   onSaveComplete(): void {

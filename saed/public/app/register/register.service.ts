@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders, HttpResponse, HttpErrorResponse } from '@angul
 import { IUser } from '../user';
 import { Observable, throwError } from 'rxjs';
 import { from } from 'rxjs';
-import { tap, catchError } from 'rxjs/operators';
+import { tap, catchError, retry } from 'rxjs/operators';
 
 
 
@@ -13,7 +13,7 @@ import { tap, catchError } from 'rxjs/operators';
 export class RegisterService {
 
   url: string = 'http://localhost:8080';
-  // private headers = new HttpHeaders().set('Content-Type', 'application/json');
+  // private headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
 
   constructor(private http: HttpClient) { }
 
@@ -27,8 +27,13 @@ export class RegisterService {
                           // .catch(this.errorHandler || "Server error");
   }*/
 
-  createUser(user: IUser) {
-    return this.http.post<IUser>(this.url + '/api/register', user);
+  createUser(user: IUser): Observable<IUser> {
+    return this.http.post<IUser>(this.url + '/api/register', user, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      }),
+      responseType: 'text' as 'json'
+    });
   }
 
   private handleError(err) {

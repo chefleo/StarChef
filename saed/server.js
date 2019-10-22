@@ -1,5 +1,8 @@
+require('./passportConfig');
 var express    = require('express');
+var jwt        = require('jsonwebtoken');
 var cors       = require('cors');
+var passport   = require('passport');
 var app        = express();
 var port       = process.env.PORT || 8080;
 var morgan     = require('morgan');
@@ -9,6 +12,7 @@ var bodyParser = require('body-parser');
 var router     = express.Router();
 var appRoutes  = require('./app/routes/api')(router);
 var path       = require('path');
+
 
 
 const corsOptions = {
@@ -25,6 +29,7 @@ app.use(function(req, res, next) {
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: false}));
 app.use(bodyParser.json());
+app.use(passport.initialize());
 app.use(morgan('dev'));
 app.use(express.static(__dirname + '/public')); //per avere l'accesso alla cartella public
 

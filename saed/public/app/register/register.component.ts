@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { RegisterService } from './register.service';
 import { IUser } from '../user';
 import { Router, ActivatedRoute } from '@angular/router';
+import { UserService } from '../user.service';
 
 @Component({
   templateUrl: './register.component.html',
@@ -28,7 +28,7 @@ export class RegisterComponent implements OnInit {
 
   constructor(private router: Router,
               private route: ActivatedRoute,
-              private registerService: RegisterService,
+              private registerService: UserService,
               private fb: FormBuilder) { }
 
   ngOnInit() {
@@ -36,21 +36,7 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit() {
-    // alert(JSON.stringify(this.form.controls.username.value));
-
     console.log(this.userForm.value);
-    /*
-    const p = { ...this.user, ...this.userForm.value };
-
-    // tslint:disable-next-line: no-unused-expression
-    this.registerService.createUser(p)
-      .subscribe((user: IUser) => {
-        // tslint:disable-next-line: no-unused-expression
-        next: () => this.onSaveComplete();
-        error: err => this.errorMessage = err;
-      }
-    ); */
-
     this.registerService.createUser(this.userForm.value)
       .subscribe(
         (data: IUser) => console.log(data),

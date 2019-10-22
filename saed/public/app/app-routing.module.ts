@@ -5,6 +5,7 @@ import { LoginComponent } from './login/login.component';
 import { ProductInfoComponent } from './product-info/product-info.component';
 import { UserEditComponent } from './user-edit/user-edit.component';
 import { RegisterComponent } from './register/register.component';
+import { AuthGuard } from './auth.guard';
 
 
 const routes: Routes = [
@@ -12,7 +13,7 @@ const routes: Routes = [
     { path: 'register', component: RegisterComponent },
     { path: 'login', component: LoginComponent },
     { path: 'product/:id', component: ProductInfoComponent },
-    { path: 'user/:id', component: UserEditComponent },
+    { path: 'user-edit', component: UserEditComponent, canActivate: [AuthGuard] },
     { path: '', redirectTo: 'home', pathMatch: 'full'},
     { path: '**', redirectTo: 'home', pathMatch: 'full'}
   ];

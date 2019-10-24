@@ -1,0 +1,10 @@
+{
+  "development": {
+      "JWT_SECRET": "SECRET#123",
+      "JWT_EXP": "120m"
+  },
+  "production": {
+      "JWT_SECRET": "SECRET#123",
+      "JWT_EXP": "2m"
+  }
+}

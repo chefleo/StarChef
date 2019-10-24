@@ -25,6 +25,9 @@ export class LoginComponent implements OnInit {
               private login: UserService) { }
 
   ngOnInit() {
+    if (this.login.isLoggedIn()) {
+      this.router.navigate(['/user-edit']);
+    }
     this.buildForm();
   }
 
@@ -33,11 +36,11 @@ export class LoginComponent implements OnInit {
     this.login.login(this.userForm.value)
       .subscribe(
         res => {
-          this.login.setToken(res['token']);
+          this.login.setToken(res['token']),
+          this.onSaveComplete();
         },
-        err => console.log(err)
+        err => alert('Email or password is incorrect')
       );
-
   }
 
   onSaveComplete(): void {

@@ -29,31 +29,9 @@ module.exports = function(router) {
         });
 
       // http://localhost:8080/api/login
-      /*router.post('/login', function(req, res) {
-        let userData = req.body;
-
-        User.findOne({email: userData.email}, (error, user) =>{
-          if(error){
-            console.log(error);
-          } else {
-            if(!user){
-              res.status(401).send('Invalid email');
-            } else if (!user.validPassword(userData.password)){
-                res.status(401).send('Invalid password');
-              } else {
-                let payload = { subject: user._id };
-                let token = jwt.sign(payload, 'secretKey');
-                console.log('Login');
-                res.status(200).send({token});
-              }
-          }
-        })
-        }
-      );*/
-
       router.post('/login', ctrlUser.authenticate);
 
-      router.get('/user-edit',jwtHelper.verifyJwtToken, ctrlUser.userProfile);
+      router.get('/user-edit', jwtHelper.verifyJwtToken, ctrlUser.userProfile);
 
 
       // http://localhost:8080/api/home

@@ -1,4 +1,5 @@
 require('./passportConfig');
+require('./config/config');
 var express    = require('express');
 var jwt        = require('jsonwebtoken');
 var cors       = require('cors');
@@ -15,7 +16,7 @@ var path       = require('path');
 
 
 
-const corsOptions = {
+/*const corsOptions = {
   origin: true,
   credentials: true
 }
@@ -23,12 +24,13 @@ const corsOptions = {
 app.options('*', cors(corsOptions));
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization, NoAuth");
   next();
-});
+});*/
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: false}));
 app.use(bodyParser.json());
+app.use(cors());
 app.use(passport.initialize());
 app.use(morgan('dev'));
 app.use(express.static(__dirname + '/public')); //per avere l'accesso alla cartella public

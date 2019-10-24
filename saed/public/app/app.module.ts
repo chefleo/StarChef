@@ -15,9 +15,8 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpErrorInterceptor } from './http-error.interceptor';
 import { AuthGuard } from './auth.guard';
-import { LoginService } from './login/login.service';
-import { RegisterService } from './register/register.service';
 import { UserService } from './user.service';
+import { AuthInterceptor } from './auth.interceptor';
 
 
 @NgModule({
@@ -39,15 +38,13 @@ import { UserService } from './user.service';
     HttpClientModule
   ],
   providers: [
-    AuthGuard,
-    LoginService,
-    RegisterService,
-    UserService,
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: HttpErrorInterceptor,
+      useClass: AuthInterceptor,
       multi: true
-    }
+    },
+    AuthGuard,
+    UserService
   ],
   bootstrap: [AppComponent]
 })

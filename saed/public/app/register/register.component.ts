@@ -20,12 +20,6 @@ export class RegisterComponent implements OnInit {
     password: ''
   };
 
-  /*form = new FormGroup({
-    username: new FormControl('', Validators.required),
-    email: new FormControl('', [Validators.required, Validators.email] ),
-    password: new FormControl('', Validators.required)
-  });*/
-
   constructor(private router: Router,
               private route: ActivatedRoute,
               private registerService: UserService,
@@ -39,11 +33,13 @@ export class RegisterComponent implements OnInit {
     console.log(this.userForm.value);
     this.registerService.createUser(this.userForm.value)
       .subscribe(
-        (data: IUser) => console.log(data),
-        (err: any) => console.log(err)
+        (data: IUser) => {
+          console.log(data),
+          this.onSaveComplete();
+        },
+        (err: any) => alert('User or Email already exists')
       );
 
-    this.onSaveComplete();
   }
 
   onSaveComplete(): void {

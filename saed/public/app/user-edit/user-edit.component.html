@@ -1,1 +1,25 @@
-<p>user-edit works!</p>
+<div class="container">
+  <table *ngIf="userDetails"  class="table table-dark">
+    <thead>
+      <tr>
+        <th colspan="2" class="text-center" scope="col">User Profile</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Username</td>
+        <td>{{userDetails.username.split(' ')[0]}}</td>
+      </tr>
+      <tr>
+        <td>Email</td>
+        <td>{{userDetails.email}}</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="text-center">
+          <input type="button" class="btn btn-danger" (click)="onLogout()" value="Logout"/>
+        </td>
+      </tr>
+    </tbody>
+
+  </table>
+</div>

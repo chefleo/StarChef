@@ -26,9 +26,9 @@ UserSchema.methods.validPassword = function(password){
 
 UserSchema.methods.generateJwt = function () {
   return jwt.sign({ _id: this._id},
-    'SECRET#123',
+    process.env.JWT_SECRET,
   {
-      expiresIn: '2m'
+      expiresIn: process.env.JWT_EXP
   });
 }
 

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse, HttpErrorResponse, HttpRequest } from '@angular/common/http';
 import { IUser } from './user';
 import { Observable, throwError } from 'rxjs';
 import { from } from 'rxjs';
@@ -10,34 +10,29 @@ import { tap, catchError, retry } from 'rxjs/operators';
 })
 export class UserService {
   url: string = 'http://localhost:8080';
-  // private headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
+
+  noAuthHeader = { headers: new HttpHeaders({ 'NoAuth': 'True'}) };
 
   constructor(private http: HttpClient) { }
 
-  createUser(user: IUser): Observable<IUser> {
-    return this.http.post<IUser>(this.url + '/api/register', user, {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      }),
-      responseType: 'text' as 'json'
-    });
-  }
-
-  loginUser(user: IUser): Observable<IUser> {
-    return this.http.post<IUser>(this.url + '/api/login', user, {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      }),
-      responseType: 'text' as 'json'
-    });
+  createUser(user: IUser) {
+    return this.http.post(this.url + '/api/register', user, this.noAuthHeader);
   }
 
   login(authCredentials) {
-    return this.http.post(this.url + '/api/login', authCredentials);
+    return this.http.post(this.url + '/api/login', authCredentials, this.noAuthHeader);
+  }
+
+  getUser() {
+    return this.http.get(this.url + '/api/user-edit');
   }
 
   setToken(token: string) {
     localStorage.setItem('token', token);
+  }
+
+  getToken() {
+    return localStorage.getItem('token');
   }
 
   deleteToken() {
@@ -45,9 +40,9 @@ export class UserService {
   }
 
   getUserPayload() {
-    let token = localStorage.getItem('token');
+    let token = this.getToken();
     if (token) {
-      console.log('1')
+      console.log('1');
       let userPayload = atob(token.split('.')[1]);
       return JSON.parse(userPayload);
     } else {

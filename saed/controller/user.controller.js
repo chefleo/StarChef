@@ -28,43 +28,60 @@ module.exports.userProfile = (req, res, next) => {
 
   User.findOne({ _id: cust._id },
       (err, user) => {
+
           if (!user) {
             return res.status(404).json({ status: false, message: 'User record not found.' });
           } else {
             //return res.status(200).json({ status: true, user : _.pick(user,['_id','username','email']) });
             //return res.write(JSON.stringify({user : _.pick(user,['_id','username','email'])}));
-            return cust = _.pick(user,['_id','username','email']);
+            console.log('preso');
+            cust = _.pick(user,['_id','username','email']);
+
+            Product.find({ person_id: cust._id },
+              (err, product) => {
+                if(!product){
+                  //res.write({user : _.pick(user,['_id','username','email'])});
+                  //res.write('send data2');
+                  //return res.end();
+                } else {
+                  //prod = _.pick(product,['person_id','name','description','price']);
+                  //console.log(product);
+                  console.log(cust);
+                  return res.status(200).json({
+                    status: true,
+                    cust,
+                    product
+                  })
+              }
+            })
           }
         }
 
    );
-
-   Product.find({ person_id: cust._id },
+   /*Product.find({ person_id: cust._id },
     (err, product) => {
       if(!product){
         //res.write({user : _.pick(user,['_id','username','email'])});
         //res.write('send data2');
         //return res.end();
       } else {
-
         //prod = _.pick(product,['person_id','name','description','price']);
-
         //console.log(product);
-        //console.log(cust);
+        console.log(cust);
         return res.status(200).json({
           status: true,
           cust,
           product
         })
-        //res.write(JSON.stringify({product : _.pick(product,['person_id','name','description','price'])}));
+    }
+  })*/
+}
+//res.write(JSON.stringify({product : _.pick(product,['person_id','name','description','price'])}));
         //res.write('send data');
         //console.log('data');
         //console.log(product);
         //return res.end();
 
-    }
-  })
-}
 //res.write({user : _.pick(user,['_id','username','email'])});
 //return res.status(200).json({status: true,product,user : _.pick(user,['_id','username','email']) })
 //return cust = _.pick(user,['_id','username','email']);

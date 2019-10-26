@@ -41,7 +41,7 @@ export class LoginService {
   getUserPayload() {
     let token = localStorage.getItem('token');
     if (token) {
-      console.log('1')
+      //console.log('1')
       let userPayload = atob(token.split('.')[1]);
       return JSON.parse(userPayload);
     } else {
@@ -52,7 +52,7 @@ export class LoginService {
   isLoggedIn() {
     let userPayload = this.getUserPayload();
     if (userPayload) {
-      console.log('2');
+      //console.log('2');
       return userPayload.exp > Date.now() / 1000;
     } else {
       console.log('3');

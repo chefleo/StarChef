@@ -4,6 +4,7 @@ import { IUser } from './user';
 import { Observable, throwError } from 'rxjs';
 import { from } from 'rxjs';
 import { tap, catchError, retry } from 'rxjs/operators';
+import { Product } from './product';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,7 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
+  // **************  Creation user and Login  *****************
   createUser(user: IUser) {
     return this.http.post(this.url + '/api/register', user, this.noAuthHeader);
   }
@@ -22,7 +24,20 @@ export class UserService {
   login(authCredentials) {
     return this.http.post(this.url + '/api/login', authCredentials, this.noAuthHeader);
   }
+  // **********************************************************
 
+  // **************  Creation Product  *****************
+
+  addProduct(product: Product) {
+    return this.http.post(this.url + '/api/user-edit', product, {responseType: 'text' as 'json'});
+  }
+
+
+
+
+  // **********************************************************
+
+  // **************  Token and authetication  *****************
   getUser() {
     return this.http.get(this.url + '/api/user-edit');
   }
@@ -42,7 +57,7 @@ export class UserService {
   getUserPayload() {
     let token = this.getToken();
     if (token) {
-      console.log('1');
+      //console.log('1');
       let userPayload = atob(token.split('.')[1]);
       return JSON.parse(userPayload);
     } else {
@@ -53,11 +68,12 @@ export class UserService {
   isLoggedIn() {
     let userPayload = this.getUserPayload();
     if (userPayload) {
-      console.log('2');
+      //console.log('2');
       return userPayload.exp > Date.now() / 1000;
     } else {
-      console.log('3');
+      //console.log('3');
       return false;
+      }
     }
-    }
+    // **********************************************************
 }

@@ -31,16 +31,18 @@ module.exports = function(router) {
       // http://localhost:8080/api/login
       router.post('/login', ctrlUser.authenticate);
 
+      // http://localhost:8080/api/user-edit
       router.get('/user-edit', jwtHelper.verifyJwtToken, ctrlUser.userProfile);
 
 
-      // http://localhost:8080/api/home
-      router.post('/home', function(req,res) {
+      router.post('/user-edit', function(req,res) {
         var product = new Product();
+        product.person_id = req.body.person_id;
         product.name = req.body.name;
         product.description = req.body.description;
         product.price  = req.body.price;
-        if(req.body.name == null ||
+        if(req.body.person_id == null ||
+           req.body.name == null ||
            req.body.name == '' ||
            req.body.description == null ||
            req.body.description == ''||

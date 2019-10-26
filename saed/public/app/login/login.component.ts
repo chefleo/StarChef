@@ -10,8 +10,6 @@ import { UserService } from '../user.service';
 })
 export class LoginComponent implements OnInit {
 
-  errorMessage: string;
-
   userForm: FormGroup;
   user: IUser = {
     username: '',

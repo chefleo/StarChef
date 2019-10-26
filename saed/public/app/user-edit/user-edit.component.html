@@ -11,7 +11,7 @@
         <td>{{userDetails.username.split(' ')[0]}}</td>
       </tr>
       <tr>
-        <td>Email</td>
+        <td>email</td>
         <td>{{userDetails.email}}</td>
       </tr>
       <tr>
@@ -22,4 +22,73 @@
     </tbody>
 
   </table>
+</div>
+
+<div *ngIf="userDetails">
+  <form class="container" name="form" [formGroup]="productForm" (ngSubmit)="productForm.valid && addProduct()">
+    <div class="form-group">
+      <label for="name">Name Product</label>
+      <input type="text"
+            class="form-control"
+            placeholder="name product"
+            formControlName="name"
+            [ngClass]="{'is-invalid': productForm.get('name')
+                                                 .touched &&
+                                      productForm.get('name').invalid}">
+      <div *ngIf="productForm.get('name').touched &&
+                  productForm.get('name').invalid"
+            class="invalid-feedback">
+          <div *ngIf="productForm.get('name').errors">
+            The product name is required
+          </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="description">Description</label>
+      <input type="text"
+             class="form-control"
+             placeholder="Description"
+             formControlName="description"
+             [ngClass]="{'is-invalid': productForm.get('description')
+                                                  .touched &&
+                                                  productForm.get('description').invalid}">
+      <div *ngIf="productForm.get('description')
+                             .touched &&
+                             productForm.get('description').invalid"
+            class="invalid-feedback">
+          <div *ngIf="productForm.get('description').errors">
+            description is required
+          </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="price">Price</label>
+      <input type="number"
+             step="0.01"
+             class="form-control"
+             formControlName="price"
+            [ngClass]="{'is-invalid': productForm.get('price')
+                                                 .touched &&
+                                                 productForm.get('price').invalid}">
+      <div *ngIf="productForm.get('price')
+                            .touched &&
+                            productForm.get('price').invalid"
+                            class="invalid-feedback">
+          <div *ngIf="productForm.get('price').errors">Price is required</div>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary" [disabled]="!productForm.valid">Add Product</button>
+  </form>
+</div>
+
+<div class="container">
+  <div *ngFor="let product of products">
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+          <h5 class="card-title">{{product.name}}</h5>
+          <p class="card-text">{{product.description}}</p>
+          <p class="card-text">{{product.price}}</p>
+        </div>
+    </div>
+  </div>
 </div>

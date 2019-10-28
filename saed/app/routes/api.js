@@ -1,6 +1,7 @@
 var User       = require('../models/user');
 var Product    = require('../models/product');
 var jwt        = require('jsonwebtoken');
+const _ = require('lodash');
 
 const ctrlUser = require('../../controller/user.controller');
 const jwtHelper = require('../../controller/jwtHelper');
@@ -33,13 +34,12 @@ module.exports = function(router) {
 
       // http://localhost:8080/api/user-edit
       router.get('/user-edit', jwtHelper.verifyJwtToken, ctrlUser.userProfile);
-
-
       router.post('/user-edit', function(req,res) {
         var product = new Product();
         product.person_id = req.body.person_id;
         product.name = req.body.name;
         product.description = req.body.description;
+        product.category = req.body.category;
         product.price  = req.body.price;
         if(req.body.person_id == null ||
            req.body.name == null ||
@@ -59,6 +59,36 @@ module.exports = function(router) {
             //res.send('product save');
         }
       });
+      router.put('/user-edit', function(req, res) {
+        var user = new User;
+        user._id = req.body._id;
+        User.findByIdAndUpdate({_id: user._id}, req.body).then(function() {
+          User.findOne({_id: user._id}).then(function(user) {
+            user.save( function(err){
+              if(err){
+                  res.send('User or Email already exists!');
+              } else {
+                res.send(user);
+              }
+            });
+          })
+        })
+      })
+
+      router.get('/home', function(req, res) {
+        Product.find({},
+          (err, product) => {
+            if(!product){
+              console.log('errore');
+            } else {
+              console.log(product);
+              res.status(200).json({
+                status: true,
+                product
+              })
+            }
+          })
+      })
 
 
 

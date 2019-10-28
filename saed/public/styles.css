@@ -6,3 +6,20 @@ body {
   padding: 0;
   font-family: Roboto,"Helvetica Neue", sans-serif;
 }
+
+.container{
+  padding-top: 10px;
+}
+
+.card{
+  padding-top: 20px;
+  padding-bottom: 20px;
+  margin-top: 20px;
+}
+
+.carousel-control-prev:hover{
+  background: rgba(0, 0, 0, 0.7);
+}
+.carousel-control-next:hover{
+  background: rgba(0, 0, 0, 0.7);
+}

@@ -21,6 +21,7 @@
     "@angular/platform-browser": "~8.2.9",
     "@angular/platform-browser-dynamic": "~8.2.9",
     "@angular/router": "~8.2.9",
+    "@ng-bootstrap/ng-bootstrap": "^5.1.2",
     "bcrypt": "^3.0.6",
     "bcrypt-nodejs": "0.0.3",
     "bcryptjs": "^2.4.3",

@@ -3,6 +3,7 @@ import { UserService } from '../user.service';
 import { Router } from '@angular/router';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Product } from '../product';
+import { IUser } from '../user';
 
 @Component({
   templateUrl: './user-edit.component.html',
@@ -11,7 +12,8 @@ import { Product } from '../product';
 export class UserEditComponent implements OnInit {
 
   userDetails;
-  userId: string;
+
+  Categories = ['Ovens', 'Knife', 'blast chiller'];
 
   productForm: FormGroup;
   products: Product[];
@@ -19,8 +21,17 @@ export class UserEditComponent implements OnInit {
     person_id: '',
     name: '',
     description: '',
+    category: '',
     price: null
   };
+  user: IUser = {
+    username: '',
+    email: '',
+    password: ''
+  };
+
+
+  editForm: FormGroup;
 
   constructor(private userService: UserService, private router: Router, private fb: FormBuilder) { }
 
@@ -49,14 +60,38 @@ export class UserEditComponent implements OnInit {
       .subscribe(
         res => {
           this.onSaveComplete(),
-          console.log('product create');
+          console.log('product create'),
+          this.reloadComponent();
         },
         err => console.log(err)
       );
   }
 
+  Edit() {
+    console.log(this.editForm.value);
+    this.userService.putUser(this.editForm.value)
+      .subscribe(
+        res => {
+          this.onSaveComplete(),
+          console.log('Update user'),
+          this.reloadComponent();
+        },
+        err => console.log(err)
+      );
+  }
+
+  reloadComponent() {
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    this.router.onSameUrlNavigation = 'reload';
+    this.router.navigate(['/user-edit']);
+  }
+
   onSaveComplete(): void {
     // Reset the form to clear the flags
+    this.editForm.get('username').reset();
+    this.editForm.get('email').reset();
+    this.editForm.get('password').reset();
+
     this.productForm.get('name').reset();
     this.productForm.get('description').reset();
     this.productForm.get('price').reset();
@@ -68,7 +103,15 @@ export class UserEditComponent implements OnInit {
       person_id:       [this.userDetails._id],
       name:            [this.product.name, Validators.required],
       description:     [this.product.description, Validators.required],
+      category:        [this.product.category, Validators.required],
       price:           [this.product.price, Validators.required]
+    });
+
+    this.editForm = this.fb.group({
+      _id:      [this.userDetails._id],
+      username: [this.user.username, Validators.required],
+      email:    [this.user.email, [Validators.required, Validators.email]] ,
+      password: [this.user.password, Validators.required]
     });
   }
 }

@@ -1,2 +1,32 @@
-<p>Home work</p>
+<ngb-carousel>
+      <ng-template ngbSlide>
+        <img src="http://geniuscook.com/wp-content/uploads/2018/06/steel-kitchen-herd-oven-cooking-food80.jpg" alt="Random first slide">
+      </ng-template>
+      <ng-template ngbSlide>
+        <img src="https://www.falcoforniture.it/wp-content/uploads/2016/03/La-ricetta-per-risparmiare-in-cucina.jpg" alt="Random second slide">
+      </ng-template>
+      <ng-template ngbSlide>
+        <img src="https://cdn.shopify.com/s/files/1/1728/9189/products/phantom_chef_stock4.001_530x@2x.jpg?v=1496852656" alt="Random third slide">
+      </ng-template>
+</ngb-carousel>
+
+
+
+
+<div class="container">
+    <div class="row">
+      <div *ngFor="let product of products">
+      <div class="col-sm-6">
+        <div class="card" style="width: 350px;">
+            <div class="card-body">
+                <h5 class="card-title text-center">{{product.name}}</h5>
+                <p class="card-text">Description: {{product.description}}</p>
+                <p class="card-text">Category: {{product.category}}</p>
+                <p class="card-text">Price: {{product.price | currency : "EUR"}}</p>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 

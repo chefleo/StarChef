@@ -25,21 +25,82 @@
 </div>
 
 <div *ngIf="userDetails">
-  <form class="container" name="form" [formGroup]="productForm" (ngSubmit)="productForm.valid && addProduct()">
+    <form class="container card" name="form" [formGroup]="editForm" (ngSubmit)="editForm.valid && Edit()">
+      <h2>Edit</h2>
+      <div class="form-group">
+          <input type="hidden" class="form-control" formControlName="_id">
+      </div>
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text"
+              class="form-control"
+              value="{{userDetails.username}}"
+              formControlName="username"
+              [ngClass]="{'is-invalid': editForm.get('username')
+                                                   .touched &&
+                                        editForm.get('username').invalid}">
+        <div *ngIf="editForm.get('username').touched &&
+                    editForm.get('username').invalid"
+              class="invalid-feedback">
+            <div *ngIf="editForm.get('username').errors">
+              The username is required
+            </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email"
+               class="form-control"
+               value="{{userDetails.email}}"
+               formControlName="email"
+               [ngClass]="{'is-invalid': editForm.get('email')
+                                                    .touched &&
+                                                    editForm.get('email').invalid}">
+        <div *ngIf="editForm.get('email')
+                               .touched &&
+                               editForm.get('email').invalid"
+              class="invalid-feedback">
+            <div *ngIf="editForm.get('email').errors">
+              Email is required
+            </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password"
+               class="form-control"
+               formControlName="password"
+              [ngClass]="{'is-invalid': editForm.get('password')
+                                                   .touched &&
+                                                   editForm.get('password').invalid}">
+        <div *ngIf="editForm.get('password')
+                              .touched &&
+                              editForm.get('password').invalid"
+                              class="invalid-feedback">
+            <div *ngIf="editForm.get('password').errors">Password is required</div>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary" [disabled]="!editForm.valid">Edit</button>
+    </form>
+  </div>
+
+<div *ngIf="userDetails">
+  <form class="container card" name="form" [formGroup]="productForm" (ngSubmit)="productForm.valid && addProduct()">
+    <h2>Add your product</h2>
     <div class="form-group">
-      <label for="name">Name Product</label>
+      <label for="name">Name product</label>
       <input type="text"
             class="form-control"
             placeholder="name product"
             formControlName="name"
             [ngClass]="{'is-invalid': productForm.get('name')
                                                  .touched &&
-                                      productForm.get('name').invalid}">
+                                                 productForm.get('name').invalid}">
       <div *ngIf="productForm.get('name').touched &&
-                  productForm.get('name').invalid"
+      productForm.get('name').invalid"
             class="invalid-feedback">
           <div *ngIf="productForm.get('name').errors">
-            The product name is required
+            The edit name is required
           </div>
       </div>
     </div>
@@ -57,10 +118,23 @@
                              productForm.get('description').invalid"
             class="invalid-feedback">
           <div *ngIf="productForm.get('description').errors">
-            description is required
+            Description is required
           </div>
       </div>
     </div>
+    <div class="form-group">
+        <label for="Category">Category</label>
+        <select class="custom-select" formControlName="category">
+          <option value="">Choose category</option>
+          <option *ngFor="let category of Categories" [ngValue]="category">{{category}}</option>
+        </select>
+        <div *ngIf="productForm.get('category').touched && productForm.get('category').invalid"
+              class="invalid-feedback">
+            <div *ngIf="productForm.get('category').errors">
+              Category is required
+            </div>
+        </div>
+      </div>
     <div class="form-group">
       <label for="price">Price</label>
       <input type="number"
@@ -77,18 +151,26 @@
           <div *ngIf="productForm.get('price').errors">Price is required</div>
       </div>
     </div>
-    <button type="submit" class="btn btn-primary" [disabled]="!productForm.valid">Add Product</button>
+    <button type="submit" class="btn btn-primary" [disabled]="!productForm.valid">Add product</button>
   </form>
 </div>
 
+<h1 id="prod" class="text-center" *ngIf="products">
+    Your Products
+</h1>
 <div class="container">
-  <div *ngFor="let product of products">
-    <div class="card" style="width: 18rem;">
-        <div class="card-body">
-          <h5 class="card-title">{{product.name}}</h5>
-          <p class="card-text">{{product.description}}</p>
-          <p class="card-text">{{product.price}}</p>
+    <div class="row">
+      <div *ngFor="let product of products">
+      <div class="col-sm-6">
+        <div class="card" style="width: 350px;">
+            <div class="card-body">
+              <h5 class="card-title text-center">{{product.name}}</h5>
+              <p class="card-text">Description: {{product.description}}</p>
+              <p class="card-text">Category: {{product.category}}</p>
+              <p class="card-text">Price: {{product.price | currency : "EUR"}}</p>
+            </div>
         </div>
+      </div>
     </div>
   </div>
 </div>

@@ -24,18 +24,29 @@ export class UserService {
   login(authCredentials) {
     return this.http.post(this.url + '/api/login', authCredentials, this.noAuthHeader);
   }
-  // **********************************************************
+
+  putUser(user: IUser) {
+    return this.http.put(this.url + '/api/user-edit', user);
+  }
+
 
   // **************  Creation Product  *****************
-
   addProduct(product: Product) {
     return this.http.post(this.url + '/api/user-edit', product, {responseType: 'text' as 'json'});
+  }
+
+  // **************  Get Products  *****************
+  getProducts() {
+    return this.http.get(this.url + '/api/home');
   }
 
 
 
 
-  // **********************************************************
+
+
+
+
 
   // **************  Token and authetication  *****************
   getUser() {
@@ -75,5 +86,5 @@ export class UserService {
       return false;
       }
     }
-    // **********************************************************
+
 }

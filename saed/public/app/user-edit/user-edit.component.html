@@ -88,6 +88,10 @@
   <form class="container card" name="form" [formGroup]="productForm" (ngSubmit)="productForm.valid && addProduct()">
     <h2>Add your product</h2>
     <div class="form-group">
+      <h6>Image product</h6>
+      <input type="file" (change)="selectImage($event)"/>
+    </div>
+    <div class="form-group">
       <label for="name">Name product</label>
       <input type="text"
             class="form-control"
@@ -155,15 +159,20 @@
   </form>
 </div>
 
-<h1 id="prod" class="text-center" *ngIf="products">
-    Your Products
-</h1>
+<div *ngIf="userDetails">
+  <h1 id="prod" class="text-center" *ngIf="products">
+      Your Products
+  </h1>
+</div>
+
 <div class="container">
     <div class="row">
       <div *ngFor="let product of products">
       <div class="col-sm-6">
         <div class="card" style="width: 350px;">
             <div class="card-body">
+              <!--<img src="../../assets/2019-10-29T17:48:21.866Zplanetaria1.png" alt="image"/>-->
+              <img [src]="product.image" alt="image" />
               <h5 class="card-title text-center">{{product.name}}</h5>
               <p class="card-text">Description: {{product.description}}</p>
               <p class="card-text">Category: {{product.category}}</p>

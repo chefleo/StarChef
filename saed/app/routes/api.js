@@ -2,9 +2,39 @@ var User       = require('../models/user');
 var Product    = require('../models/product');
 var jwt        = require('jsonwebtoken');
 const _ = require('lodash');
+const multer   = require('multer');
 
 const ctrlUser = require('../../controller/user.controller');
 const jwtHelper = require('../../controller/jwtHelper');
+const storage = multer.diskStorage({
+  destination: function(req, file, callback) {
+    callback(null, './uploads/');
+  },
+  filename: function(req, file, callback) {
+    callback(null, new Date().toISOString() + file.originalname );
+  }
+});
+
+const fileFilter = (req, file, cb) => {
+
+    if(file.mimetype === 'image/png' || file.mimetype === 'image/jpeg'){
+      cb(null, true);
+    } else {
+      //reject a file
+      cb(null, false);
+    }
+}
+
+var upload = multer({
+  storage: storage,
+  limits:{
+    fileSize: 1024 * 1024 * 5
+  },
+  fileFilter: fileFilter
+});
+
+
+//var upload = multer({dest: 'uploads/'});
 
 module.exports = function(router) {
     // http://localhost:8080/api/register
@@ -34,8 +64,11 @@ module.exports = function(router) {
 
       // http://localhost:8080/api/user-edit
       router.get('/user-edit', jwtHelper.verifyJwtToken, ctrlUser.userProfile);
-      router.post('/user-edit', function(req,res) {
+      router.post('/user-edit', upload.single('file'), function(req,res) {
+
+        console.log(req.file);
         var product = new Product();
+        product.image = req.file.path;
         product.person_id = req.body.person_id;
         product.name = req.body.name;
         product.description = req.body.description;
@@ -49,15 +82,22 @@ module.exports = function(router) {
            isNaN(req.body.price) ){
             res.send('Ensure name, description and price were provided');
           } else {
-            product.save(function(err){
-              if(err){
-                  res.send(err);
-              } else {
-                  res.send('product created');
-              }
-            });
-            //res.send('product save');
-        }
+            if(!req.file){
+              console.log('Please load file');
+              res.status(400).send('Error file');
+            } else {
+              product.save(function(err){
+                if(err){
+                    res.send(err);
+                } else {
+                    //console.log(req.file);
+                    console.log('Profile image uploaded');
+                    res.send(req.file);
+                }
+              });
+              //res.send('product save');
+            }
+          }
       });
       router.put('/user-edit', function(req, res) {
         var user = new User;
@@ -81,7 +121,7 @@ module.exports = function(router) {
             if(!product){
               console.log('errore');
             } else {
-              console.log(product);
+              //console.log(product);
               res.status(200).json({
                 status: true,
                 product

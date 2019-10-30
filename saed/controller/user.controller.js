@@ -22,7 +22,6 @@ module.exports.authenticate = (req, res, next) => {
 module.exports.userProfile = (req, res, next) => {
   let cust = new User;
   cust._id = req._id;
-  var prod = new Product;
 
   //let customer;
 
@@ -34,7 +33,7 @@ module.exports.userProfile = (req, res, next) => {
           } else {
             //return res.status(200).json({ status: true, user : _.pick(user,['_id','username','email']) });
             //return res.write(JSON.stringify({user : _.pick(user,['_id','username','email'])}));
-            console.log('preso');
+            //console.log('preso');
             cust = _.pick(user,['_id','username','email']);
 
             Product.find({ person_id: cust._id },
@@ -46,7 +45,7 @@ module.exports.userProfile = (req, res, next) => {
                 } else {
                   //prod = _.pick(product,['person_id','name','description','price']);
                   //console.log(product);
-                  console.log(cust);
+                  //console.log(cust);
                   return res.status(200).json({
                     status: true,
                     cust,

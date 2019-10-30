@@ -31,8 +31,17 @@ export class UserService {
 
 
   // **************  Creation Product  *****************
-  addProduct(product: Product) {
-    return this.http.post(this.url + '/api/user-edit', product, {responseType: 'text' as 'json'});
+  addProduct(image: File, person_id, name, description, category, price) {
+
+    const formData: any = new FormData();
+    formData.append('file', image);
+    formData.append('person_id', person_id);
+    formData.append('name', name);
+    formData.append('description', description);
+    formData.append('category', category);
+    formData.append('price', price);
+
+    return this.http.post(this.url + '/api/user-edit', formData);
   }
 
   // **************  Get Products  *****************

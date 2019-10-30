@@ -24,7 +24,7 @@ export class AuthInterceptor implements HttpInterceptor {
           err => {
             console.log('errore');
             console.log(err);
-            this.router.navigateByUrl('/login');
+            this.router.navigateByUrl('/home');
             /*if (err.error.auth === false) {
               this.router.navigateByUrl('/login');
              }*/

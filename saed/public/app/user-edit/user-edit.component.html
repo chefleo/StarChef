@@ -1,3 +1,4 @@
+<!--   User    -->
 <div class="container">
   <table *ngIf="userDetails"  class="table table-dark">
     <thead>
@@ -24,6 +25,7 @@
   </table>
 </div>
 
+<!--   User Edit   -->
 <div *ngIf="userDetails">
     <form class="container card" name="form" [formGroup]="editForm" (ngSubmit)="editForm.valid && Edit()">
       <h2>Edit</h2>
@@ -84,6 +86,7 @@
     </form>
   </div>
 
+<!--   Add Product    -->
 <div *ngIf="userDetails">
   <form class="container card" name="form" [formGroup]="productForm" (ngSubmit)="productForm.valid && addProduct()">
     <h2>Add your product</h2>
@@ -130,7 +133,7 @@
         <label for="Category">Category</label>
         <select class="custom-select" formControlName="category">
           <option value="">Choose category</option>
-          <option *ngFor="let category of Categories" [ngValue]="category">{{category}}</option>
+          <option *ngFor="let category of categories" [ngValue]="category">{{category}}</option>
         </select>
         <div *ngIf="productForm.get('category').touched && productForm.get('category').invalid"
               class="invalid-feedback">
@@ -166,20 +169,18 @@
 </div>
 
 <div class="container">
-    <div class="row">
+    <div class="card-group">
       <div *ngFor="let product of products">
-      <div class="col-sm-6">
         <div class="card" style="width: 350px;">
+            <img class="card-img-top" src="{{url}}/{{product.image}}" alt="image" />
             <div class="card-body">
-              <!--<img src="../../assets/2019-10-29T17:48:21.866Zplanetaria1.png" alt="image"/>-->
-              <img [src]="product.image" alt="image" />
               <h5 class="card-title text-center">{{product.name}}</h5>
               <p class="card-text">Description: {{product.description}}</p>
               <p class="card-text">Category: {{product.category}}</p>
               <p class="card-text">Price: {{product.price | currency : "EUR"}}</p>
-            </div>
-        </div>
+              <button type="submit" class="btn btn-danger" (click)="deleteProduct(product)" >DELETE</button>
+          </div>
       </div>
     </div>
-  </div>
 </div>
+

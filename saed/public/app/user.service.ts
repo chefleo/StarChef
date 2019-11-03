@@ -14,6 +14,7 @@ export class UserService {
 
   noAuthHeader = { headers: new HttpHeaders({ 'NoAuth': 'True'}) };
 
+
   constructor(private http: HttpClient) { }
 
   // **************  Creation user and Login  *****************
@@ -44,13 +45,15 @@ export class UserService {
     return this.http.post(this.url + '/api/user-edit', formData);
   }
 
+  // **************  Delete Product  *****************
+  deleteProduct(product) {
+    return this.http.delete(this.url + '/api/user-edit/product/' + product, {responseType: 'text'});
+  }
+
   // **************  Get Products  *****************
   getProducts() {
     return this.http.get(this.url + '/api/home');
   }
-
-
-
 
 
 

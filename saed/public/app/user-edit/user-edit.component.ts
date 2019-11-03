@@ -14,8 +14,10 @@ export class UserEditComponent implements OnInit {
 
   userDetails;
 
+  url: string = 'http://localhost:8080';
 
-  Categories = ['Ovens', 'Knife', 'blast chiller'];
+
+  categories = ['Ovens', 'Knife', 'Cooking', 'Slicers', 'Kneading'];
   images;
 
   productForm: FormGroup;
@@ -43,12 +45,9 @@ export class UserEditComponent implements OnInit {
         this.userDetails = res['cust'],
         this.products = res['product'],
         console.log(this.products),
-        this.buildForm(),
-        console.log(this.userDetails._id),
-        console.log(this.userDetails);
+        this.buildForm();
       }
     );
-    //this.buildForm();
   }
 
   onLogout() {
@@ -57,7 +56,6 @@ export class UserEditComponent implements OnInit {
   }
 
   addProduct() {
-
     console.log(this.productForm.value.image);
     this.userService.addProduct(
       this.productForm.value.image,
@@ -79,6 +77,17 @@ export class UserEditComponent implements OnInit {
           this.router.navigate(['/home']);
         }
       );
+  }
+
+  deleteProduct(product) {
+    console.log(product._id);
+    this.userService.deleteProduct(product._id).subscribe(
+      data => {
+        console.log(data);
+        alert('Success');
+        this.reloadComponent();
+      }
+    );
   }
 
   Edit() {
@@ -106,8 +115,6 @@ export class UserEditComponent implements OnInit {
     this.editForm.get('username').reset();
     this.editForm.get('email').reset();
     this.editForm.get('password').reset();
-
-
     // Product
     this.productForm.get('image').reset();
     this.productForm.get('name').reset();
@@ -117,7 +124,7 @@ export class UserEditComponent implements OnInit {
   }
 
   buildForm() {
-    console.log(this.userDetails._id);
+    //console.log(this.userDetails._id);
     this.productForm = this.fb.group({
       image:           [this.product.image, Validators.required],
       person_id:       [this.userDetails._id],
@@ -136,11 +143,6 @@ export class UserEditComponent implements OnInit {
   }
 
   selectImage(event) {
-    /*if(event.target.files.length > 0) {
-      const file = event.target.files[0];
-      this.productForm.get('image').setValue(file);
-    }*/
-
     const file = (event.target as HTMLInputElement).files[0];
     this.productForm.patchValue({
       image: file

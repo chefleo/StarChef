@@ -36,8 +36,8 @@ app.use(morgan('dev'));
 app.use(express.static(__dirname + '/public')); //per avere l'accesso alla cartella public
 
 //app.use('/uploads', express.static(path.join('uploads')));
-app.use('/uploads', express.static(path.join(__dirname + 'uploads')));
-//app.use(express.static(__dirname + '/public'));
+//app.use('/uploads', express.static(path.join(__dirname + 'uploads')));
+//app.use(express.static(__dirname + '/uploads'));
 
 app.use('/api', appRoutes); // http://localhost:8080/api/altro
 

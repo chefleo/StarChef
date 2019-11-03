@@ -6,15 +6,15 @@ const multer   = require('multer');
 
 const ctrlUser = require('../../controller/user.controller');
 const jwtHelper = require('../../controller/jwtHelper');
+
 const storage = multer.diskStorage({
   destination: function(req, file, callback) {
-    callback(null, './uploads/');
+    callback(null, './public/assets/pics/');
   },
   filename: function(req, file, callback) {
-    callback(null, new Date().toISOString() + file.originalname );
+    callback(null, +new Date() + file.originalname );
   }
 });
-
 const fileFilter = (req, file, cb) => {
 
     if(file.mimetype === 'image/png' || file.mimetype === 'image/jpeg'){
@@ -38,7 +38,7 @@ var upload = multer({
 
 module.exports = function(router) {
     // http://localhost:8080/api/register
-        router.post('/register', function(req, res) {
+    router.post('/register', function(req, res) {
           var user = new User();
           user.username = req.body.username;
           user.password = req.body.password;
@@ -57,18 +57,16 @@ module.exports = function(router) {
               }
             });
           }
-        });
-
-      // http://localhost:8080/api/login
-      router.post('/login', ctrlUser.authenticate);
-
-      // http://localhost:8080/api/user-edit
-      router.get('/user-edit', jwtHelper.verifyJwtToken, ctrlUser.userProfile);
-      router.post('/user-edit', upload.single('file'), function(req,res) {
+    });
+    // http://localhost:8080/api/login
+    router.post('/login', ctrlUser.authenticate);
+    // http://localhost:8080/api/user-edit
+    router.get('/user-edit', jwtHelper.verifyJwtToken, ctrlUser.userProfile);
+    router.post('/user-edit', upload.single('file'), function(req,res) {
 
         console.log(req.file);
         var product = new Product();
-        product.image = req.file.path;
+        product.image = 'assets/pics/' + req.file.filename;
         product.person_id = req.body.person_id;
         product.name = req.body.name;
         product.description = req.body.description;
@@ -98,8 +96,8 @@ module.exports = function(router) {
               //res.send('product save');
             }
           }
-      });
-      router.put('/user-edit', function(req, res) {
+    });
+    router.put('/user-edit', function(req, res) {
         var user = new User;
         user._id = req.body._id;
         User.findByIdAndUpdate({_id: user._id}, req.body).then(function() {
@@ -113,24 +111,36 @@ module.exports = function(router) {
             });
           })
         })
+    });
+    router.delete('/user-edit/product/:id', function(req, res) {
+      const requestId = req.params.id;
+      Product.findByIdAndRemove(requestId, (err, data) => {
+        if(err){
+          console.log("Err delete");
+        } else {
+          res.send('Delete');
+        }
+      });
+    })
+    router.get('/home', jwtHelper.verifyJwtTokenHome, function(req, res) {
+      let user = new User({
+        _id: req._id,
       })
-
-      router.get('/home', function(req, res) {
-        Product.find({},
-          (err, product) => {
-            if(!product){
-              console.log('errore');
-            } else {
-              //console.log(product);
-              res.status(200).json({
-                status: true,
-                product
-              })
-            }
-          })
+      Product.find({},
+        (err, product) => {
+          if(!product){
+            console.log('errore');
+          } else {
+            //console.log(product);
+            console.log(user);
+            res.status(200).json({
+              status: true,
+              user,
+              product
+            })
+          }
+        })
       })
-
-
 
     return router;
 }

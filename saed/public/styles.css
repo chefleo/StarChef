@@ -12,6 +12,7 @@ body {
 }
 
 .card{
+  color: black;
   padding-bottom: 20px;
   margin-top: 20px;
 }
@@ -26,4 +27,14 @@ body {
 }
 .carousel-control-next:hover{
   background: rgba(0, 0, 0, 0.7);
+}
+
+.mat-sidenav-container {
+  height: 100%;
+  background-color: #EAEDED;
+  color: black;
+}
+
+.mat-sidenav {
+  width: 200px;
 }

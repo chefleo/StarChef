@@ -55,6 +55,20 @@ export class UserService {
     return this.http.get(this.url + '/api/home');
   }
 
+  // **************  Post Orders  *****************
+  postOrder(userId, productId, quantity) {
+    return this.http.post(this.url + '/api/home', {userId, productId, quantity});
+  }
+
+  // **************  Get Orders  *****************
+  getOrders() {
+    return this.http.get(this.url + '/api/user-edit/orders');
+  }
+
+  // **************  Delete Orders  *****************
+  deleteOrder(order) {
+    return this.http.delete(this.url + '/api/user-edit/orders/' + order, {responseType: 'text'});
+  }
 
 
 

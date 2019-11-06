@@ -17,6 +17,9 @@
       <li class="nav-item" *ngIf="isLoggedIn">
         <a [routerLink]="['/user-edit']" class="nav-link">Profile</a>
       </li>
+      <li class="nav-item" *ngIf="isLoggedIn">
+          <a [routerLink]="['/user-edit/orders']" class="nav-link">Orders</a>
+        </li>
     </ul>
   </div>
 </nav>

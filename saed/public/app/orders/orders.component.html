@@ -1,0 +1,26 @@
+<h1 class="text-center py-3">Your Orders</h1>
+<table class="table table-bordered">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col" style="width: 5%">#</th>
+        <th scope="col" style="width: 45%">Product</th>
+        <th scope="col" style="width: 20%">Price</th>
+        <th scope="col" style="width: 5%">Quantity</th>
+        <th scope="col" style="width: 15%">Total</th>
+        <th scope="col" style="width: 10%">Delete order</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <tr *ngFor="let orders of order; let i = index">
+        <td scope="row">{{i}}</td>
+        <td>{{orders.product.name}}</td>
+        <td>{{orders.product.price | currency : "EUR"}}</td>
+        <td>{{orders.quantity}}</td>
+        <td>{{ orders.quantity *  orders.product.price | currency : "EUR"}}</td>
+        <td><button type="button" class="btn btn-danger" (click)="deleteOrder(orders)"><i class="fas fa-trash-alt"></i></button></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h1>Total: {{this.totalorder | currency : "EUR"}} </h1>

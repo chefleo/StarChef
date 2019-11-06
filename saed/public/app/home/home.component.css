@@ -2,3 +2,44 @@ img{
   width:100%;
   max-height: 600px;
 }
+
+#side{
+  padding-top: 10px;
+  padding-left: 16px;
+  background-color: transparent;
+  border-style: none;
+}
+
+#sidebar {
+  background-color: #232E3E;
+  color: black;
+}
+
+mat-nav-list button {
+  width: 310px;
+  height: 78px;
+  text-align: center;
+  color: black;
+  border-color: black;
+  border-radius: 15px 50px 30px 5px;
+}
+
+#all {
+  background-color: aliceblue;
+}
+
+#cooking {
+  background-color: crimson;
+}
+
+#pastry {
+  background-color: #FF9900;
+}
+
+#knife {
+  background-color: cadetblue;
+}
+
+#filter {
+  padding-left: 80px;
+}

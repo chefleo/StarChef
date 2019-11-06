@@ -1,5 +1,6 @@
 var User       = require('../models/user');
 var Product    = require('../models/product');
+var Order    = require('../models/order');
 var jwt        = require('jsonwebtoken');
 const _ = require('lodash');
 const multer   = require('multer');
@@ -141,6 +142,68 @@ module.exports = function(router) {
           }
         })
       })
+    router.post('/home', function(req, res) {
+      console.log(req.body)
+      Product.findById(req.body.productId)
+        .then(product => {
+          let order = new Order({
+            userId: req.body.userId,
+            product: req.body.productId,
+            quantity: req.body.quantity
+          });
+          console.log(order);
+          return order.save()
+        })
+        .then(result => {
+          console.log(result);
+          res.status(201).json({
+            message: 'Order stored',
+            createdOrder: {
+              _id: result._id,
+              userId: result.userId,
+              product: result.product,
+              quantity: result.quantity
+            }
+          })
+        })
+        .catch(err => {
+          res.status(500).json({
+            message: 'Product not found',
+            error: err
+          });
+        })
+    })
+
+    router.get('/user-edit/orders', jwtHelper.verifyJwtTokenHome, function(req, res) {
+      let user = new User({
+        _id: req._id,
+      });
+      let order = new Order;
+      console.log(user);
+      Order.find({ userId: user._id })
+            .select('product, quantity')
+            .populate('product', 'name price')
+            .then( order => {
+              res.status(201).json(
+                {
+                  status: true,
+                  order
+                }
+              );
+            })
+    })
+
+    router.delete('/user-edit/orders/:id', function(req, res) {
+      const requestId = req.params.id;
+      Order.findByIdAndRemove(requestId, (err, data) => {
+        if(err){
+          console.log("Err delete");
+        } else {
+          res.send('Delete');
+        }
+      });
+    })
 
     return router;
 }
+

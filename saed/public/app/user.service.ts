@@ -1,101 +1,116 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpResponse, HttpErrorResponse, HttpRequest } from '@angular/common/http';
-import { IUser } from './user';
-import { Observable, throwError } from 'rxjs';
-import { from } from 'rxjs';
-import { tap, catchError, retry } from 'rxjs/operators';
-import { Product } from './product';
+import { Injectable } from "@angular/core";
+import {
+  HttpClient,
+  HttpHeaders,
+  HttpResponse,
+  HttpErrorResponse,
+  HttpRequest
+} from "@angular/common/http";
+import { IUser } from "./user";
+import { Observable, throwError } from "rxjs";
+import { from } from "rxjs";
+import { tap, catchError, retry } from "rxjs/operators";
+import { Product } from "./product";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class UserService {
-  url: string = 'http://localhost:8080';
+  url: string = "http://localhost:8080";
 
-  noAuthHeader = { headers: new HttpHeaders({ 'NoAuth': 'True'}) };
+  noAuthHeader = { headers: new HttpHeaders({ NoAuth: "True" }) };
 
-
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   // **************  Creation user and Login  *****************
   createUser(user: IUser) {
-    return this.http.post(this.url + '/api/register', user, this.noAuthHeader);
+    return this.http.post(this.url + "/api/register", user, this.noAuthHeader);
   }
 
   login(authCredentials) {
-    return this.http.post(this.url + '/api/login', authCredentials, this.noAuthHeader);
+    return this.http.post(
+      this.url + "/api/login",
+      authCredentials,
+      this.noAuthHeader
+    );
   }
 
   putUser(user: IUser) {
-    return this.http.put(this.url + '/api/user-edit', user);
+    return this.http.put(this.url + "/api/user-edit", user);
   }
-
 
   // **************  Creation Product  *****************
   addProduct(image: File, person_id, name, description, category, price) {
-
     const formData: any = new FormData();
-    formData.append('file', image);
-    formData.append('person_id', person_id);
-    formData.append('name', name);
-    formData.append('description', description);
-    formData.append('category', category);
-    formData.append('price', price);
+    formData.append("file", image);
+    formData.append("person_id", person_id);
+    formData.append("name", name);
+    formData.append("description", description);
+    formData.append("category", category);
+    formData.append("price", price);
 
-    return this.http.post(this.url + '/api/user-edit', formData);
+    return this.http.post(this.url + "/api/user-edit", formData);
   }
 
   // **************  Delete Product  *****************
   deleteProduct(product) {
-    return this.http.delete(this.url + '/api/user-edit/product/' + product, {responseType: 'text'});
+    return this.http.delete(this.url + "/api/user-edit/product/" + product, {
+      responseType: "text"
+    });
   }
 
   // **************  Get Products  *****************
   getProducts() {
-    return this.http.get(this.url + '/api/home');
+    return this.http.get(this.url + "/api/home");
   }
 
   // **************  Post Orders  *****************
   postOrder(userId, productId, quantity) {
-    return this.http.post(this.url + '/api/home', {userId, productId, quantity});
+    return this.http.post(this.url + "/api/home", {
+      userId,
+      productId,
+      quantity
+    });
   }
 
   // **************  Get Orders  *****************
   getOrders() {
-    return this.http.get(this.url + '/api/user-edit/orders');
+    return this.http.get(this.url + "/api/user-edit/orders");
   }
 
   // **************  Delete Orders  *****************
   deleteOrder(order) {
-    return this.http.delete(this.url + '/api/user-edit/orders/' + order, {responseType: 'text'});
+    return this.http.delete(this.url + "/api/user-edit/orders/" + order, {
+      responseType: "text"
+    });
   }
 
-
-
-
+  payment() {
+    return this.http.get(this.url + "/api/user-edit/orders/payment");
+  }
 
   // **************  Token and authetication  *****************
   getUser() {
-    return this.http.get(this.url + '/api/user-edit');
+    return this.http.get(this.url + "/api/user-edit");
   }
 
   setToken(token: string) {
-    localStorage.setItem('token', token);
+    localStorage.setItem("token", token);
   }
 
   getToken() {
-    return localStorage.getItem('token');
+    return localStorage.getItem("token");
   }
 
   deleteToken() {
-    localStorage.removeItem('token');
+    localStorage.removeItem("token");
   }
 
   getUserPayload() {
     let token = this.getToken();
     if (token) {
       //console.log('1');
-      let userPayload = atob(token.split('.')[1]);
+      let userPayload = atob(token.split(".")[1]);
       return JSON.parse(userPayload);
     } else {
       return null;
@@ -110,7 +125,6 @@ export class UserService {
     } else {
       //console.log('3');
       return false;
-      }
     }
-
+  }
 }

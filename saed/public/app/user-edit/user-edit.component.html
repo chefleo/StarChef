@@ -113,13 +113,14 @@
     </div>
     <div class="form-group">
       <label for="description">Description</label>
-      <input type="text"
-             class="form-control"
-             placeholder="Description"
-             formControlName="description"
-             [ngClass]="{'is-invalid': productForm.get('description')
+      <textarea
+            rows="5"
+            class="form-control"
+            placeholder="Description"
+            formControlName="description"
+            [ngClass]="{'is-invalid': productForm.get('description')
                                                   .touched &&
-                                                  productForm.get('description').invalid}">
+                                                  productForm.get('description').invalid}"></textarea>
       <div *ngIf="productForm.get('description')
                              .touched &&
                              productForm.get('description').invalid"
@@ -171,14 +172,21 @@
 <div class="container">
     <div class="card-group">
       <div *ngFor="let product of products">
-        <div class="card" style="width: 350px;">
+        <div class="card h-100" style="width: 350px;">
             <img class="card-img-top" src="{{url}}/{{product.image}}" alt="image" />
             <div class="card-body">
               <h5 class="card-title text-center">{{product.name}}</h5>
-              <p class="card-text">Description: {{product.description}}</p>
-              <p class="card-text">Category: {{product.category}}</p>
+              <mat-expansion-panel class="expansion">
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>
+                      Description:
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+                  <p>{{ product.description }}</p>
+                </mat-expansion-panel>
+              <p class="card-text pt-4">Category: {{product.category}}</p>
               <p class="card-text">Price: {{product.price | currency : "EUR"}}</p>
-              <button type="submit" class="btn btn-danger" (click)="deleteProduct(product)" >DELETE</button>
+              <button mat-button type="submit" class="btn btn-danger" (click)="deleteProduct(product)" >DELETE</button>
           </div>
       </div>
     </div>

@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../user.service';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material';
 import { Product } from '../product';
 import { Order } from '../order';
+import { timeInterval } from 'rxjs/operators';
 
 @Component({
   selector: 'app-orders',
@@ -15,7 +17,7 @@ export class OrdersComponent implements OnInit {
   totalsingleorder = 0;
   totalorder: number = 0;
 
-  constructor(private userService: UserService, private router: Router) { }
+  constructor(private userService: UserService, private _snackBar: MatSnackBar, private router: Router) { }
 
   ngOnInit() {
     this.userService.getOrders().subscribe(
@@ -42,10 +44,33 @@ export class OrdersComponent implements OnInit {
     this.userService.deleteOrder(order._id).subscribe(
       data => {
         console.log(data);
-        alert('Delete Order');
+        this.deleteSnackBar('Delete Order', 'Close');
         this.reloadComponent();
       }
     );
+  }
+
+  deleteSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 2000,
+      panelClass: ['delete-class']
+    });
+  }
+
+  payment() {
+    this.userService.payment().subscribe(
+      data => {
+        this.paySnackBar('Orders Accepted', 'Close'),
+        this.reloadComponent();
+      }
+    )
+  }
+
+  paySnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 2000,
+      panelClass: ['pay-class']
+    });
   }
 
   reloadComponent() {
@@ -53,13 +78,4 @@ export class OrdersComponent implements OnInit {
     this.router.onSameUrlNavigation = 'reload';
     this.router.navigate(['/user-edit/orders']);
   }
-
-  /*getTotal():number {
-    this.totalsingleorder = this.order[i].product.price * this.order[i].quantity;
-    this.totalorder += this.totalsingleorder;
-    console.log(i);
-    console.log(this.totalsingleorder);
-    console.log(typeof(this.totalorder));
-    return this.totalsingleorder;
-  }*/
 }

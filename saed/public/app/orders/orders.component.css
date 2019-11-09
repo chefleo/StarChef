@@ -6,3 +6,22 @@
 table th {
   text-align: center;
 }
+.submit-button {
+  margin-top: 10px;
+}
+
+::ng-deep snack-bar-container.delete-class {
+  background: #0D0630;
+}
+
+::ng-deep .delete-class .mat-simple-snackbar {
+  color: crimson;
+}
+
+::ng-deep snack-bar-container.pay-class {
+  background: #0D0630;
+}
+
+::ng-deep .pay-class .mat-simple-snackbar {
+  color: #50C878;
+}

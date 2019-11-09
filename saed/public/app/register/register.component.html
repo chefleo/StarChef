@@ -1,27 +1,75 @@
-<form class="container" name="form" [formGroup]="userForm" (ngSubmit)="userForm.valid && onSubmit()">
-    <div class="form-group">
-        <label for="username">Username</label>
-        <input type="text" class="form-control" id="username" placeholder="username" formControlName="username"
-        [ngClass]="{'is-invalid': userForm.get('username').touched && userForm.get('username').invalid}">
-        <div *ngIf="userForm.get('username').touched && userForm.get('username').invalid" class="invalid-feedback">
-          <div *ngIf="userForm.get('username').errors">Username is required</div>
-        </div>
+<form
+  class="container"
+  name="form"
+  [formGroup]="userForm"
+  (ngSubmit)="userForm.valid && onSubmit()"
+>
+  <div class="form-group">
+    <label for="username">Username</label>
+    <input
+      type="text"
+      class="form-control"
+      id="username"
+      placeholder="username"
+      formControlName="username"
+      [ngClass]="{
+        'is-invalid':
+          userForm.get('username').touched && userForm.get('username').invalid
+      }"
+    />
+    <div
+      *ngIf="
+        userForm.get('username').touched && userForm.get('username').invalid
+      "
+      class="invalid-feedback"
+    >
+      <div *ngIf="userForm.get('username').errors">Username is required</div>
     </div>
+  </div>
   <div class="form-group">
     <label for="email">Email address</label>
-    <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email" formControlName="email"
-    [ngClass]="{'is-invalid': userForm.get('email').touched && userForm.get('email').invalid}">
-    <div *ngIf="userForm.get('email').touched && userForm.get('email').invalid" class="invalid-feedback">
-        <div *ngIf="userForm.get('email').errors">Email is required</div>
+    <input
+      type="email"
+      class="form-control"
+      id="email"
+      aria-describedby="emailHelp"
+      placeholder="Enter email"
+      formControlName="email"
+      [ngClass]="{
+        'is-invalid':
+          userForm.get('email').touched && userForm.get('email').invalid
+      }"
+    />
+    <div
+      *ngIf="userForm.get('email').touched && userForm.get('email').invalid"
+      class="invalid-feedback"
+    >
+      <div *ngIf="userForm.get('email').errors">Email is required</div>
     </div>
   </div>
   <div class="form-group">
     <label for="password">Password</label>
-    <input type="password" class="form-control" id="password" placeholder="Password" formControlName="password"
-    [ngClass]="{'is-invalid': userForm.get('password').touched && userForm.get('password').invalid}">
-    <div *ngIf="userForm.get('password').touched && userForm.get('password').invalid" class="invalid-feedback">
-        <div *ngIf="userForm.get('password').errors">Password is required</div>
+    <input
+      type="password"
+      class="form-control"
+      id="password"
+      placeholder="Password"
+      formControlName="password"
+      [ngClass]="{
+        'is-invalid':
+          userForm.get('password').touched && userForm.get('password').invalid
+      }"
+    />
+    <div
+      *ngIf="
+        userForm.get('password').touched && userForm.get('password').invalid
+      "
+      class="invalid-feedback"
+    >
+      <div *ngIf="userForm.get('password').errors">Password is required</div>
     </div>
   </div>
-  <button type="submit" class="btn btn-primary" [disabled]="!userForm.valid">Submit</button>
+  <button type="submit" class="btn btn-primary" [disabled]="!userForm.valid">
+    Submit
+  </button>
 </form>

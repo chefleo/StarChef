@@ -1,67 +1,130 @@
 <!--  Images Carousel -->
 <ngb-carousel>
-      <ng-template ngbSlide>
-        <img src="http://geniuscook.com/wp-content/uploads/2018/06/steel-kitchen-herd-oven-cooking-food80.jpg" alt="Random first slide">
-      </ng-template>
-      <ng-template ngbSlide>
-        <img src="https://www.falcoforniture.it/wp-content/uploads/2016/03/La-ricetta-per-risparmiare-in-cucina.jpg" alt="Random second slide">
-      </ng-template>
-      <ng-template ngbSlide>
-        <img src="https://cdn.shopify.com/s/files/1/1728/9189/products/phantom_chef_stock4.001_530x@2x.jpg?v=1496852656" alt="Random third slide">
-      </ng-template>
+  <ng-template ngbSlide>
+    <img
+      src="http://geniuscook.com/wp-content/uploads/2018/06/steel-kitchen-herd-oven-cooking-food80.jpg"
+      alt="Random first slide"
+    />
+  </ng-template>
+  <ng-template ngbSlide>
+    <img
+      src="https://www.falcoforniture.it/wp-content/uploads/2016/03/La-ricetta-per-risparmiare-in-cucina.jpg"
+      alt="Random second slide"
+    />
+  </ng-template>
+  <ng-template ngbSlide>
+    <img
+      src="https://cdn.shopify.com/s/files/1/1728/9189/products/phantom_chef_stock4.001_530x@2x.jpg?v=1496852656"
+      alt="Random third slide"
+    />
+  </ng-template>
 </ngb-carousel>
 
 <mat-sidenav-container>
-  <mat-sidenav mode="push" [(opened)]= "opened" id="sidebar">
+  <mat-sidenav mode="push" [(opened)]="opened" id="sidebar">
     <mat-nav-list>
-        <button mat-list-item mat-button id="all" (click)="reset()">All products</button>
-      <button mat-list-item mat-button [matMenuTriggerFor]="cooking" id="cooking">Cooking line</button>
-        <mat-menu #cooking="matMenu" xPosition="before">
-            <button mat-menu-item (click)="search('Ovens')">Ovens</button>
-            <button mat-menu-item (click)="search('Slicers')">Slicers</button>
-        </mat-menu>
-      <button mat-list-item mat-button [matMenuTriggerFor]="pastry" id="pastry">Pastry line</button>
-        <mat-menu #pastry="matMenu" xPosition="before">
-            <button mat-menu-item (click)="search('Kneading')">Kneading</button>
-        </mat-menu>
-      <button mat-list-item mat-button id="knife" (click)="search('Knife')">Knife</button>
+      <button mat-list-item mat-button id="all" (click)="reset()">
+        All products
+      </button>
+      <button
+        mat-list-item
+        mat-button
+        [matMenuTriggerFor]="cooking"
+        id="cooking"
+      >
+        Cooking line
+      </button>
+      <mat-menu #cooking="matMenu">
+        <button mat-menu-item (click)="search('Ovens')">Ovens</button>
+        <button mat-menu-item (click)="search('Slicers')">Slicers</button>
+      </mat-menu>
+      <button mat-list-item mat-button [matMenuTriggerFor]="pastry" id="pastry">
+        Pastry line
+      </button>
+      <mat-menu #pastry="matMenu">
+        <button mat-menu-item (click)="search('Kneading')">Kneading</button>
+      </mat-menu>
+      <button mat-list-item mat-button id="knife" (click)="search('Knife')">
+        Knife
+      </button>
+      <button mat-list-item mat-button id="other" (click)="search('Other')">
+          Other
+      </button>
     </mat-nav-list>
   </mat-sidenav>
 
   <mat-sidenav-content>
-    <button class="fas fa-utensils fa-2x" id="side" (click)="opened=!opened"></button>
+    <button class="btn" id="side" (click)="opened = !opened">
+      <i class="fas fa-bars fa-2x"></i>
+    </button>
     <form id="filter">
       <label>Products by name:</label>
-      <input type="text"  [(ngModel)]="term" name="term" [ngModelOptions]="{standalone:true}"/>
+      <input
+        type="text"
+        [(ngModel)]="term"
+        name="term"
+        [ngModelOptions]="{ standalone: true }"
+      />
     </form>
     <!--  Products -->
     <form class="container" [formGroup]="orderForm">
+      <!--<div class="row">-->
+      <!--<div class="col-lg-9 d-flex align-items-stretch">-->
       <div class="card-group">
-      <div *ngFor="let product of products | filter:term">
-        <div class="card" style="width: 350px;">
-            <img class="card-img-top" src="{{url}}/{{product.image}}" alt="image" />
+        <div *ngFor="let product of products | filter: term">
+          <div class="card h-100" style="width: 350px;">
+            <img
+              class="card-img-top"
+              src="{{ url }}/{{ product.image }}"
+              alt="image"
+            />
             <div class="card-body">
-              <h5 class="card-title text-center">{{product.name}}</h5>
-              <p class="card-text">Description: {{product.description}}</p>
-              <p class="card-text">Category: {{product.category}}</p>
-              <p class="card-text">Price: {{product.price | currency : "EUR"}}</p>
-                <div *ngIf="isLoggedIn === true">
-                  <div class="form-group">
-                    <input type="hidden" formControlName="product" value="getProduct(product)">
-                  </div>
-                  <div class="form-group">
-                    <select name="quantity" formControlName="quantity">
-                      <option *ngFor="let item of [].constructor(10); let i = index" [ngValue]="i + 1">{{i+1}}</option>
-                    </select>
-                      <button type="button" class="btn btn-primary" (click)="orderProduct(product, quantity)">Buy</button>
-
+              <h5 class="card-title text-center">{{ product.name }}</h5>
+              <mat-expansion-panel class="expansion">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    Description:
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <p>{{ product.description }}</p>
+              </mat-expansion-panel>
+              <p class="card-text pt-4">Category: {{ product.category }}</p>
+              <p class="card-text">
+                Price: {{ product.price | currency: "EUR" }}
+              </p>
+              <div *ngIf="isLoggedIn === true">
+                <div class="form-group">
+                  <input
+                    type="hidden"
+                    formControlName="product"
+                    value="getProduct(product)"
+                  />
+                </div>
+                <div class="form-group">
+                  <select name="quantity" formControlName="quantity">
+                    <option
+                      *ngFor="let item of [].constructor(10); let i = index"
+                      [ngValue]="i + 1"
+                      >{{ i + 1 }}</option
+                    >
+                  </select>
+                  <div class="row pt-4 pl-3">
+                    <button
+                      type="button"
+                      class="btn btn-primary"
+                      (click)="orderProduct(product, quantity)"
+                    >
+                      <i class="fas fa-cart-plus"></i>Order
+                    </button>
                   </div>
                 </div>
+              </div>
             </div>
           </div>
         </div>
+        <!--</div>-->
+        <!--</div>-->
       </div>
     </form>
   </mat-sidenav-content>
 </mat-sidenav-container>
-

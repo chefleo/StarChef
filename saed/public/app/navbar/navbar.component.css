@@ -1,0 +1,12 @@
+.star {
+  font-family: 'Kaushan Script', cursive;
+  font-size: 30px;
+  color:#FBEC5D;
+  text-decoration: none;
+  padding-right: 40px;
+}
+
+#hover:hover{
+  color:	#7FFFD4;
+}
+

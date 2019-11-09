@@ -1,17 +1,20 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~bootstrap/dist/css/bootstrap.css";
-html, body { height: 100%; }
+html,
+body {
+  height: 100%;
+}
 body {
   margin: 0;
   padding: 0;
-  font-family: Roboto,"Helvetica Neue", sans-serif;
+  font-family: Roboto, "Helvetica Neue", sans-serif;;
 }
 
-.container{
+.container {
   padding-top: 10px;
 }
 
-.card{
+.card {
   color: black;
   padding-bottom: 20px;
   margin-top: 20px;
@@ -20,18 +23,21 @@ body {
 .card-img-top {
   width: 100%;
   max-height: 300px;
+  min-height: 90px;
+  justify-content: center;
+  align-content: center;
 }
 
-.carousel-control-prev:hover{
+.carousel-control-prev:hover {
   background: rgba(0, 0, 0, 0.7);
 }
-.carousel-control-next:hover{
+.carousel-control-next:hover {
   background: rgba(0, 0, 0, 0.7);
 }
 
 .mat-sidenav-container {
   height: 100%;
-  background-color: #EAEDED;
+  background-color: #eaeded;
   color: black;
 }
 

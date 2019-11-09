@@ -1,26 +1,63 @@
-<h1 class="text-center py-3">Your Orders</h1>
-<table class="table table-bordered">
-    <thead class="thead-dark">
-      <tr>
-        <th scope="col" style="width: 5%">#</th>
-        <th scope="col" style="width: 45%">Product</th>
-        <th scope="col" style="width: 20%">Price</th>
-        <th scope="col" style="width: 5%">Quantity</th>
-        <th scope="col" style="width: 15%">Total</th>
-        <th scope="col" style="width: 10%">Delete order</th>
-      </tr>
-    </thead>
-    <tbody>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-4">
+      <h1 class="text-center py-3">Your Orders</h1>
+    </div>
+    <table class="table table-bordered" *ngIf="order.length > 0">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col" style="width: 5%">#</th>
+          <th scope="col" style="width: 45%">Product</th>
+          <th scope="col" style="width: 20%">Price</th>
+          <th scope="col" style="width: 5%">Quantity</th>
+          <th scope="col" style="width: 15%">Total</th>
+          <th scope="col" style="width: 10%">Delete order</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let orders of order; let i = index">
+          <td scope="row">{{ i }}</td>
+          <td>{{ orders.product.name }}</td>
+          <td>{{ orders.product.price | currency: "EUR" }}</td>
+          <td>{{ orders.quantity }}</td>
+          <td>
+            {{ orders.quantity * orders.product.price | currency: "EUR" }}
+          </td>
+          <td>
+            <button
+              type="button"
+              class="btn btn-danger"
+              (click)="deleteOrder(orders)"
+            >
+              <i class="fas fa-trash-alt"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="container">
+      <h5 *ngIf="order.length === 0" class="text-center py-3">
+        Il carrello è vuoto
+      </h5>
+    </div>
+    <div class="col-xs-12 col-md-4" *ngIf="order.length > 0">
+      <ul class="nav nav-pills nav-stacked">
+        <li class="active">
+          <button>
+            Final Payment <span>{{ this.totalorder | currency: "EUR" }}</span>
+          </button>
+        </li>
+      </ul>
+      <br />
+      <button
+        class="btn btn-success btn-lg btn-block"
+        role="button"
+        (click)="payment()"
+      >
+        Pay >>
+      </button>
+    </div>
+  </div>
 
-      <tr *ngFor="let orders of order; let i = index">
-        <td scope="row">{{i}}</td>
-        <td>{{orders.product.name}}</td>
-        <td>{{orders.product.price | currency : "EUR"}}</td>
-        <td>{{orders.quantity}}</td>
-        <td>{{ orders.quantity *  orders.product.price | currency : "EUR"}}</td>
-        <td><button type="button" class="btn btn-danger" (click)="deleteOrder(orders)"><i class="fas fa-trash-alt"></i></button></td>
-      </tr>
-    </tbody>
-  </table>
-
-  <h1>Total: {{this.totalorder | currency : "EUR"}} </h1>
+  <!-- {{this.totalorder | currency : "EUR"}} -->
+</div>

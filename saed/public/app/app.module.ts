@@ -4,7 +4,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpErrorInterceptor } from './http-error.interceptor';
-import { MatSidenavModule, MatListModule, MatMenuModule } from '@angular/material';
+import { MatSidenavModule, MatListModule, MatMenuModule, MatExpansionModule, MatSnackBarModule, MatPaginatorModule } from '@angular/material';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -46,6 +46,9 @@ import { OrdersComponent } from './orders/orders.component';
     FontAwesomeModule,
     MatMenuModule,
     MatListModule,
+    MatExpansionModule,
+    MatSnackBarModule,
+    MatPaginatorModule
   ],
   providers: [
     {

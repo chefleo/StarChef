@@ -2,4 +2,35 @@
   padding-top: 30px;
 }
 
+::ng-deep snack-bar-container.delete-class {
+  background: #0D0630;
+}
 
+::ng-deep .delete-class .mat-simple-snackbar {
+  color: crimson;
+}
+
+::ng-deep snack-bar-container.add-class {
+  background: black;
+}
+
+::ng-deep .add-class .mat-simple-snackbar {
+  color: #33A1FD;
+}
+
+
+::ng-deep snack-bar-container.edit-class {
+  background: black;
+}
+
+::ng-deep .edit-class .mat-simple-snackbar {
+  color: #2176FF;
+}
+
+::ng-deep snack-bar-container.logout-class {
+  background: black;
+}
+
+::ng-deep .logout-class .mat-simple-snackbar {
+  color: #F79824;
+}
